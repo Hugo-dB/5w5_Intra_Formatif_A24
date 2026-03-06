@@ -31,22 +31,46 @@ export class AppComponent {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl('http://localhost:5282/hubs/pizza')
       .build();
+        //.on ICI
+        
+      this.hubConnection?.on("UpdateNbUsers", (data:number) => {
+        this.nbUsers = data;
+      });
+      this.hubConnection?.on("UpdateMoney", (data:number) => {
+        this.money = data;
+      });
+      this.hubConnection?.on("UpdateNbPizzasAndMoney", (nbPizzas:number, money:number) => {
+        this.nbPizzas = nbPizzas;
+        this.money = money;
+      });
+      this.hubConnection?.on("UpdatePizzaPrice", (data:number) => {
+        this.pizzaPrice = data;
+      });
 
-    // TODO: Mettre isConnected à true seulement une fois que la connection au Hub est faite
-    this.isConnected = true;
+      this.hubConnection
+          .start()
+          .then(() => {
+            console.log("Hub connecté!");
+            this.isConnected = true;
+          })
+          .catch(e => console.log("Erreur de la connexion au hub : " + e))
   }
 
   selectChoice(selectedChoice:number) {
     this.selectedChoice = selectedChoice;
+    this.hubConnection!.invoke("SelectChoice", selectedChoice)
   }
 
   unselectChoice() {
+    this.hubConnection!.invoke("UnselectChoice", this.selectedChoice)
     this.selectedChoice = -1;
   }
 
   addMoney() {
+    this.hubConnection!.invoke("AddMoney", this.selectedChoice);
   }
 
   buyPizza() {
+    this.hubConnection!.invoke("BuyPizza", this.selectedChoice);
   }
 }

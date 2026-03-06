@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, ValidationErrors, Validators, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, ValidationErrors, Validators, ReactiveFormsModule, FormGroup } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -17,12 +17,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 })
 export class AppComponent {
   title = 'reactive.form';
-
+  formGroup: FormGroup;
   
-
-  constructor(
-    
-  ) { }
+  constructor(private formBuilder : FormBuilder) { 
+    this.formGroup = this.formBuilder.group(
+      {
+        name: ['', [Validators.required]]
+      }  
+    );
+  }
 }
 
 

@@ -28,4 +28,15 @@ export class UserService {
 
     this.route.navigate(['/login']);
   }
+
+  isLogged() : boolean {
+    return this.currentUser != undefined;
+  }
+
+  isCatLover() : boolean {
+    if(this.currentUser == undefined)
+      return false
+    
+    return this.currentUser?.prefercat
+  }
 }

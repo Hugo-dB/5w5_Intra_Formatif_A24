@@ -62,13 +62,15 @@ export function estDixMots(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const nom = control.get('name');
       const commentaire = control.get('comments');
+
       if(!nom?.value || !commentaire?.value) {
         return null;
       }
-      const estValide = !commentaire.value.includes(nom.value);
+
+      const motsDansCommentaire = commentaire.value.split(' ')
+      const estValide = !motsDansCommentaire.includes(nom.value);
 
       if(!estValide) {
-        console.log("erreur");
         commentaire.setErrors({ ...commentaire.errors, nomDansCommentaire: true });
       }
       

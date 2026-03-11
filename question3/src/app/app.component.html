@@ -55,9 +55,11 @@
     <mat-card-actions align="end">
       <button mat-raised-button color="primary" [disabled]="!formGroup.valid" (onClick)="test()">Acheter</button>
     </mat-card-actions>
+    
     @if(formGroup.hasError("nomDansCommentaire")) {
     <mat-error> Le commentaire ne doit pas mentionner le nom de l’utilisateur </mat-error>
   }
+    
   </form>
   
 </mat-card>

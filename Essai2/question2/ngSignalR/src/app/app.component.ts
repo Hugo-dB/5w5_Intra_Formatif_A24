@@ -31,7 +31,31 @@ export class AppComponent {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl('http://localhost:5282/hubs/pizza')
       .build();
+      
+      // .On ici
+      this.hubConnection!.on("UpdateNbUsers", (data) => {
+        this.nbUsers = data;
+      });
 
+      this.hubConnection!.on("UpdateMoney", (money) => {
+        this.money = money;
+      });
+
+      this.hubConnection!.on("UpdateNbPizzasAndMoney", (nbPizzas, money) => {
+        this.nbPizzas = nbPizzas;
+        this.money = money;
+      });
+
+      this.hubConnection!.on("UpdatePizzaPrice", (pizzaPrice) => {
+        this.pizzaPrice = pizzaPrice;
+      });
+
+    this.hubConnection
+        .start()
+        .then(() => {
+          console.log("connexion au hub");
+        })
+        .catch(e => console.log("erreur en se connectant au hub: " + e));
     // TODO: Mettre isConnected à true seulement une fois que la connection au Hub est faite
     this.isConnected = true;
   }

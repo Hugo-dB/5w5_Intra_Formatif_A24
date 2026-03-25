@@ -61,16 +61,20 @@ export class AppComponent {
   }
 
   selectChoice(selectedChoice:number) {
+    this.hubConnection!.invoke("SelectChoice", selectedChoice);
     this.selectedChoice = selectedChoice;
   }
 
   unselectChoice() {
+    this.hubConnection!.invoke("UnselectChoice", this.selectedChoice);
     this.selectedChoice = -1;
   }
 
   addMoney() {
+    this.hubConnection!.invoke("AddMoney", this.selectedChoice);
   }
 
   buyPizza() {
+    this.hubConnection!.invoke("BuyPizza", this.selectedChoice);
   }
 }
